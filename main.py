@@ -27,7 +27,8 @@ class GMDownloader:
 			os.makedirs(self.libDIR)
 
 		self.stations = {}
-		self.workingPlaylistOBJ = {}	
+		self.workingPlaylistOBJ = {}
+		self.needToDownloadSongs = None	
 
 		self.Full = True
 
@@ -84,7 +85,7 @@ class GMDownloader:
 
 		rawPlaylist = self.api.get_station_tracks( stationID , 25 )
 
-		needToDownloadSongs = {}
+		self.needToDownloadSongs = {}
 
 		for x in rawPlaylist:
 			if x['nid'] in self.localLibrary:
@@ -92,10 +93,10 @@ class GMDownloader:
 			else:
 				self.Full = False
 				print( str(x['nid']) + " == Not in library ... need to download" )
-				needToDownloadSongs[x['nid']] = { 'stationID': stationID , 'trackName': x['title'] , 'artistName': x['artist'] , 'albumID': x['albumId'] , 'artURL': x['albumArtRef'][0]['url'] }
+				self.needToDownloadSongs[x['nid']] = { 'stationID': stationID , 'trackName': x['title'] , 'artistName': x['artist'] , 'albumID': x['albumId'] , 'artURL': x['albumArtRef'][0]['url'] }
 				
 
-		p1 = threading.Thread( target=self.getMP3FromSongIDS , args=( needToDownloadSongs , stationID , ) )
+		p1 = threading.Thread( target=self.getMP3FromSongIDS , args=( stationID , ) )
 		p1.start()
 		p1.join()
 
@@ -104,13 +105,18 @@ class GMDownloader:
 			print( "LocalLibary Size = " + str( len( self.localLibrary ) ) )
 			self.downloadStationToPOOL( stationID )
 
-	def getMP3FromSongIDS( self , neededDowloads , stationID ):
+	def getMP3FromSongIDS( self , stationID ):
 		
-		for x in neededDowloads:
-			self.saveMP3ToLibraryPOOL( x , neededDowloads[x]['trackName'] , neededDowloads[x]['artistName'] , stationID )
-			self.localLibrary[x['nid']] = needToDownloadSongs[x['nid']]
+		a1 = 1
+		for x in self.needToDownloadSongs:
+
+			self.saveMP3ToLibraryPOOL( x , self.needToDownloadSongs[x]['trackName'] , self.needToDownloadSongs[x]['artistName'] , stationID )
+			self.localLibrary[x] = self.needToDownloadSongs[x]
 			pickle.dump( self.localLibrary , open( os.path.join( self.libDIR , "libDatabasePOOL.p" ) , "wb" ) )
-			print("added [" + str(len(neededDowloads)) + "] songs to localLibrary")
+			print("added [" + str(a1) + " of " + str(len(self.needToDownloadSongs)) + "] songs to localLibrary")
+			a1 = a1 + 1
+			
+
 
 	def saveMP3ToLibraryPOOL( self , songID , name , artist , stationID ):
 
@@ -141,13 +147,10 @@ class GMDownloader:
 		if onlyCopyNotExtract == True:
 			for key , value in self.localLibrary.items():
 				try:
-					print( value['stationID'] )
-					'''
 					if value['stationID'] == stationID:
-						#print( "found --> " + self.localLibrary[x]['trackName'] + " in ... " + str(stationID) )
+						#print( "found --> " + self.localLibrary[key]['trackName'] + " in ... " + str(stationID) )
 						fN = str(key) + ".mp3" 
 						shutil.copy( os.path.join( self.libDIR , fN ) , os.path.join( destinationDIR , fN ) )
-					'''		
 				except:
 					pass		
 
@@ -155,11 +158,13 @@ class GMDownloader:
 			for key , value in self.localLibrary.items():
 				try:
 					if value['stationID'] == stationID:
-						#print( "found --> " + self.localLibrary[x]['trackName'] + " in ... " + str(stationID) )
+						#print( "found --> " + self.localLibrary[key]['trackName'] + " in ... " + str(stationID) )
 						fN = str(key) + ".mp3" 
 						shutil.move( os.path.join( self.libDIR , fN ) , os.path.join( destinationDIR , fN ) )
 				except:
 					pass
+
+
 
 
 # 1.) Login 
