@@ -8,7 +8,7 @@ from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
 import mutagen.id3
 
-class Downloader:
+class GMDownloader:
 
 	def __init__( self , username1=None ,  password1=None , saveDirectory=None ):
 

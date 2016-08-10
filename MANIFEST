@@ -3,3 +3,4 @@ README.txt
 setup.cfg
 setup.py
 GMDownloader/__init__.py
+GMDownloader/main2.py

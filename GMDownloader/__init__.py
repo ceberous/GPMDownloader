@@ -1,2 +1,2 @@
-import main2.py
+import main2
 
