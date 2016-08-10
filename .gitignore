@@ -1,8 +1,0 @@
-.git/
-dist/
-__pycache__/
-README.txt
-MANIFEST
-__init__.py
-__init__.pyc
-
