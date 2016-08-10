@@ -10,10 +10,12 @@ import mutagen.id3
 
 class GMDownloader:
 
-	def __init__( self , saveDirectory=None ):
+	def __init__( self , username1=None ,  password1=None , saveDirectory=None ):
 
 		self.api = Mobileclient()
-		self.login()
+		if username1 is not None:
+			if password1 is not None:
+				self.login( username1 , password1 )
 
 		if self.isLoggedIn() == True:
 			print("Logged In")
@@ -49,9 +51,9 @@ class GMDownloader:
 		x = self.api.is_authenticated()
 		return x
 
-	def login(self):
+	def login(self , userN , passW ):
 
-		self.api.login( gMusicLogin.getUser() , gMusicLogin.getPass() , Mobileclient.FROM_MAC_ADDRESS )
+		self.api.login( userN , passW , Mobileclient.FROM_MAC_ADDRESS )
 
 	def initializePlaylists(self):
 
