@@ -10,7 +10,7 @@ import mutagen.id3
 
 class GMDownloader:
 
-	def __init__(self):
+	def __init__( self , saveDirectory=None ):
 
 		self.api = Mobileclient()
 		self.login()
@@ -21,11 +21,17 @@ class GMDownloader:
 			raise Exception
 
 
-		#self.homeDIR = os.path.expanduser("~")
-		self.homeDIR = os.path.expanduser("/media/morpheous/SP PHD U3/Music/")
-		self.libDIR = os.path.join( self.homeDIR , 'GMusicLocalLibraryPOOL' )
+		# Setup Default Save Location
+		if saveDirectory is not None:
+			self.homeDIR = saveDirectory
+			self.libDIR = os.path.join( self.homeDIR , 'GMusicLocalLibraryPOOL' )
+		else:
+			self.homeDIR = os.path.expanduser("~")
+			self.libDIR = os.path.join( self.homeDIR , 'GMusicLocalLibraryPOOL' )
+		
 		if not os.path.exists(self.libDIR):
 			os.makedirs(self.libDIR)
+
 
 		self.stations = {}
 		self.workingPlaylistOBJ = {}
@@ -165,30 +171,3 @@ class GMDownloader:
 
 
 
-
-# 1.) Login 
-#------------#
-'''
-try:
-	myD = GMDownloader()
-except:
-	print("Not Successful")
-'''
-
-myD = GMDownloader()
-
-# 2.) Fetch User's Stations
-#---------------------------#
-myD.getMyStations()
-myD.printAvailableStations()
-
-# 3.) Download a Station
-#---------------------------#
-
-
-#oldwID = '4e83f360-db98-3119-a9b8-d22756c4fafb'
-
-wID = '9673a6e8-de88-3c98-b81e-b3a1a4d30c89'
-
-myD.downloadStationToPOOL( wID )
-myD.extractSinglePlaylistFromPOOL( wID , os.path.join( myD.libDIR , wID  )  )

@@ -1,15 +1,16 @@
-def setup():
+from distutils.core import setup
 
-	name	= 'GMDownloader'
-	version	= '0.1'
-	description = 'GM Playlist Downloader'
-	long_description=README
-	url = 'https://github.com/ceberous/GMDownloader'
-	author = 'ceberous'
-	author_email = 'cerbus.collin@gmail.com'
+setup(
 
-	packages = [ 'main.py' ]
+	name	= 'GMDownloader',
+	packages = [ 'GMDownloader' ],
+	version	= '0.1',
+	description = 'GM Playlist Downloader',
+	author = 'ceberous',
+	author_email = 'cerbus.collin@gmail.com',
+	url = 'https://github.com/ceberous/GPMDownloader.git',
+	keywords = [ 'google' , 'play' , 'music' , 'gmusicapi' , 'downloader' , 'playlist' ],
+	classifier = [],
+	install_requires = [ 'gmusicapi' , 'tqdm' ]
 
-	include_package_data = True
-
-	install_requires[ 'gmusicapi' , 'tqdm' ]
+)
