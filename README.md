@@ -23,3 +23,6 @@ wStationID = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 myD.downloadStationToPOOL( wStationID )
 
 myD.extractSinglePlaylistFromPOOL( wStationID , os.path.join( myD.libDIR , wStationID  )  )
+
+
+#### so the only confusing part is that you need to run step 1 and 2 together before you add in step 3. Unless you somehow know your stationID before hand
