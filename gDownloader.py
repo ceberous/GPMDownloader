@@ -7,7 +7,7 @@ from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
 import mutagen.id3
 
-class GMDownloader:
+class Downloader:
 
 	def __init__( self , username1=None ,  password1=None , baseDirectory=None , pickleLIBFilePath=None ):
 
@@ -30,6 +30,7 @@ class GMDownloader:
 			self.homeDIR = os.path.expanduser("~")
 			self.libDIR = os.path.join( self.homeDIR , 'GMusicLocalLibraryPOOL' )
 		
+
 		if not os.path.exists(self.libDIR):
 			os.makedirs(self.libDIR)
 
@@ -73,11 +74,13 @@ class GMDownloader:
 	def initializeLocalLibrary(self , pickleLIBFilePath=None):
 
 		defaultPath = os.path.join( self.libDIR , "libDatabasePOOL.p" )
+
 		if pickleLIBFilePath is not None:
 			defaultPath = pickleLIBFilePath
+			print("DefaultPath .p file = " + defaultPath)
 
 		try:
-			self.localLibrary = pickle.load( open( defaultPath ) , "rb" ) 
+			self.localLibrary = pickle.load( open( os.path.join( self.libDIR , "libDatabasePOOL.p" ) , "rb" ) )
 			print("Loaded libDatabasePOOL.p")
 		except:
 			self.localLibrary = {}
