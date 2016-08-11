@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
 
 	name	= 'gDownloader',
-	version	= '2.0',
+	version	= '2.5',
 	description = 'GM Playlist Downloader',
 	long_description = open( 'README.txt' , 'rt' ).read(),
 	author = 'ceberous',

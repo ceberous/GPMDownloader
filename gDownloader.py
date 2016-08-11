@@ -73,18 +73,19 @@ class Downloader:
 
 	def initializeLocalLibrary(self , pickleLIBFilePath=None):
 
-		defaultPath = os.path.join( self.libDIR , "libDatabasePOOL.p" )
-
+		defaultPath2 = os.path.join( self.libDIR , "libDatabasePOOL.p" )
+		
 		if pickleLIBFilePath is not None:
-			defaultPath = pickleLIBFilePath
-			print("DefaultPath .p file = " + defaultPath)
+			defaultPath2 = pickleLIBFilePath
 
+		print("DefaultPath .p file = " + defaultPath2)
+		
 		try:
-			self.localLibrary = pickle.load( open( os.path.join( self.libDIR , "libDatabasePOOL.p" ) , "rb" ) )
+			self.localLibrary = pickle.load( open( defaultPath2  , "rb" ) )
 			print("Loaded libDatabasePOOL.p")
 		except:
 			self.localLibrary = {}
-			pickle.dump( self.localLibrary , open( defaultPath , "wb" ) )
+			pickle.dump( self.localLibrary , open( defaultPath2 , "wb" ) )
 			print("Recreated LibraryPOOL Save File")
 
 		print( "LocalLibary Size = " + str( len( self.localLibrary ) ) )
